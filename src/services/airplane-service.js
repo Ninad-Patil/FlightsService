@@ -1,7 +1,6 @@
 const { AirplaneRepository } = require("../repositories");
 const appError = require("../utils/errors/app-error");
 const { StatusCodes } = require("http-status-codes");
-console.log(AirplaneRepository);
 const airplaneRepository = new AirplaneRepository();
 
 async function createAirplane(data) {
@@ -23,6 +22,60 @@ async function createAirplane(data) {
   }
 }
 
+async function getAirplanes() {
+  try {
+    const airplanes = await airplaneRepository.getAll();
+    return airplanes;
+  } catch (error) {
+    throw new appError(
+      "cannot get the airplane data ",
+      StatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+}
+
+async function getAirplane(id) {
+  try {
+    const airplanes = await airplaneRepository.get(id);
+    return airplanes;
+  } catch (error) {
+    if (error.statusCode === StatusCodes.NOT_FOUND) {
+      throw new appError(
+        "the requested airplane does not exits",
+        error.statusCode
+      );
+    }
+
+    throw new appError(
+      "cannot get the airplane data ",
+      StatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+}
+
+async function destroyAirplane(id) {
+  try {
+    const response = await airplaneRepository.destroy(id);
+    return response;
+  } catch (error) {
+    console.log(error.statusCode, StatusCodes.NOT_FOUND);
+    if (error.statusCode === StatusCodes.NOT_FOUND) {
+      throw new appError(
+        "the requested airplane does not exits",
+        error.statusCode
+      );
+    }
+
+    throw new appError(
+      "cannot destroy the airplane data ",
+      StatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+}
+
 module.exports = {
   createAirplane,
+  getAirplanes,
+  getAirplane,
+  destroyAirplane,
 };

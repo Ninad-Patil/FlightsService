@@ -1,4 +1,6 @@
 const { logger } = require("../config");
+const { StatusCodes } = require("http-status-codes");
+const appError = require("../utils/errors/app-error");
 
 class CrudRepository {
   constructor(model) {
@@ -11,51 +13,45 @@ class CrudRepository {
   }
 
   async destroy(data) {
-    try {
-      const response = await this.model.destroy({
-        where: {
-          id: data,
-        },
-      });
-      return response;
-    } catch (error) {
-      logger.error("something went wrong in the crud Repo :destroy function");
-      throw error;
+    const response = await this.model.destroy({
+      where: {
+        id: data,
+      },
+    });
+    if (!response) {
+      throw new appError(
+        "the requested entity is not found",
+        StatusCodes.NOT_FOUND
+      );
     }
+    return response;
   }
 
   async get(data) {
-    try {
-      const response = await this.model.findByPk(data);
-      return response;
-    } catch (error) {
-      logger.error("something went wrong in the crud Repo :get function");
-      throw error;
+    const response = await this.model.findByPk(data);
+
+    //since common for all hence written here, also can go in individual service layer
+    if (!response) {
+      throw new appError(
+        "the requested entity is not found",
+        StatusCodes.NOT_FOUND
+      );
     }
+    return response;
   }
 
   async getAll(data) {
-    try {
-      const response = await this.model.findAll();
-      return response;
-    } catch (error) {
-      logger.error("something went wrong in the crud Repo :getAll function");
-      throw error;
-    }
+    const response = await this.model.findAll();
+    return response;
   }
 
   async updata(id, data) {
-    try {
-      const response = await this.model.update(data, {
-        where: {
-          id: id,
-        },
-      });
-      return response;
-    } catch (error) {
-      logger.error("something went wrong in the crud Repo :update function");
-      throw error;
-    }
+    const response = await this.model.update(data, {
+      where: {
+        id: id,
+      },
+    });
+    return response;
   }
 }
 
