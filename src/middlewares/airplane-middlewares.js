@@ -17,4 +17,19 @@ function validateCreateRequest(req, res, next) {
   next();
 }
 
-module.exports = { validateCreateRequest };
+function validateUpdateRequest(req, res, next) {
+  if (!req.body.modelNumber) {
+    ErrorResponse.message = "someting went wrong while updating an plane";
+    ErrorResponse.error = new appError(
+      ["model number cannot be empty"],
+      StatusCodes.BAD_REQUEST
+    );
+    return res.status(StatusCodes.BAD_REQUEST).json(ErrorResponse);
+  }
+  next();
+}
+
+module.exports = {
+  validateCreateRequest,
+  validateUpdateRequest,
+};

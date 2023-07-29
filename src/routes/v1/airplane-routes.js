@@ -18,4 +18,12 @@ router.get("/:id", airplaneController.getAirplane);
 
 // api/v1/airplanes/:id  DELETE
 router.delete("/:id", airplaneController.destroyAirplane);
+
+// api/v1/airplanes/:id  UPDATE
+router.put(
+  "/:id",
+  AirplaneMiddlewares.validateUpdateRequest,
+  airplaneController.updateAirplane
+);
+
 module.exports = router;
