@@ -1,15 +1,12 @@
-// technically the repo layer will handle this error as the implementation is already there but
-//we can stop the app from reaching till repo and wasting the resources by handling it with the middleware
-
 const { StatusCodes } = require("http-status-codes");
 const { ErrorResponse } = require("../utils/common");
 const appError = require("../utils/errors/app-error");
 
 function validateCreateRequest(req, res, next) {
-  if (!req.body.modelNumber) {
-    ErrorResponse.message = "someting went wrong while creating an plane";
+  if (!req.body.name) {
+    ErrorResponse.message = "someting went wrong while creating an city";
     ErrorResponse.error = new appError(
-      ["model number not found"],
+      ["city name not found in the incoming request"],
       StatusCodes.BAD_REQUEST
     );
     return res.status(StatusCodes.BAD_REQUEST).json(ErrorResponse);
