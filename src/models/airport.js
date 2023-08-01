@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.City, {
         foreignKey: "cityId",
         onDelete: "cascade",
-        onUpdate: "cascade",
       });
     }
   }
