@@ -19,11 +19,4 @@ router.get("/:id", airportController.getAirport);
 // api/v1/airplanes/:id  DELETE
 router.delete("/:id", airportController.destroyAirport);
 
-// api/v1/airplanes/:id  UPDATE
-// router.put(
-//   "/:id",
-//   AirplaneMiddlewares.validateUpdateRequest,
-//   airplaneController.updateAirplane
-// );
-
 module.exports = router;
