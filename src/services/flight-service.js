@@ -25,6 +25,7 @@ async function createFlight(data) {
 
 async function getAllFlights(query) {
   let customParams = {};
+  let customSort = [];
   if (query.trip) {
     const [departureAirportId, arrivalAirportId] = query.trip.split("-");
     customParams.departureAirportId = departureAirportId;
@@ -38,8 +39,25 @@ async function getAllFlights(query) {
     };
   }
 
+  if (query.travellers) {
+    customParams.totalSeats = {
+      [Op.gte]: query.travellers,
+    };
+  }
+
+  if (query.sort) {
+    let Params = query.sort.split(",");
+    customSort = Params.map((param) => {
+      return param.split("_");
+    });
+    console.log(customSort);
+  }
+
   try {
-    const flights = await flightRepository.getAllFlights(customParams);
+    const flights = await flightRepository.getAllFlights(
+      customParams,
+      customSort
+    );
     return flights;
   } catch (error) {
     throw new appError(
