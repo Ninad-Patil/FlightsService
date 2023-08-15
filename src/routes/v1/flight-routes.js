@@ -16,4 +16,11 @@ router.get("/", flightController.getAllFlights);
 // api/v1/flights?trips=MUM-DEL  GET
 router.get("/:id", flightController.getFlight);
 
+// api/v1/flights/:id/seats  PATCH
+router.patch(
+  "/:id/seats",
+  FlightMiddlewares.validateUpdateSeatsRequest,
+  flightController.updateSeats
+);
+
 module.exports = router;

@@ -32,56 +32,11 @@ function validateCreateRequest(req, res, next) {
   next();
 }
 
-function validateUpdateRequest(req, res, next) {
-  if (!req.body.arrivalAirportId) {
-    ErrorResponse.message = "someting went wrong while updating an flight";
+function validateUpdateSeatsRequest(req, res, next) {
+  if (!req.body.seats) {
+    ErrorResponse.message = "someting went wrong while creating an flight";
     ErrorResponse.error = new appError(
-      ["arrivalAirportId not found"],
-      StatusCodes.BAD_REQUEST
-    );
-    return res.status(StatusCodes.BAD_REQUEST).json(ErrorResponse);
-  }
-  next();
-}
-
-function validateUpdateRequest(req, res, next) {
-  if (!req.body.arrivalTime) {
-    ErrorResponse.message = "someting went wrong while updating an flight";
-    ErrorResponse.error = new appError(
-      ["arrivalTime not found"],
-      StatusCodes.BAD_REQUEST
-    );
-    return res.status(StatusCodes.BAD_REQUEST).json(ErrorResponse);
-  }
-  next();
-}
-function validateUpdateRequest(req, res, next) {
-  if (!req.body.departureTime) {
-    ErrorResponse.message = "someting went wrong while updating an flight";
-    ErrorResponse.error = new appError(
-      ["departureTime not found"],
-      StatusCodes.BAD_REQUEST
-    );
-    return res.status(StatusCodes.BAD_REQUEST).json(ErrorResponse);
-  }
-  next();
-}
-function validateUpdateRequest(req, res, next) {
-  if (!req.body.price) {
-    ErrorResponse.message = "someting went wrong while updating an flight";
-    ErrorResponse.error = new appError(
-      ["price not found"],
-      StatusCodes.BAD_REQUEST
-    );
-    return res.status(StatusCodes.BAD_REQUEST).json(ErrorResponse);
-  }
-  next();
-}
-function validateUpdateRequest(req, res, next) {
-  if (!req.body.totalSeats) {
-    ErrorResponse.message = "someting went wrong while updating an flight";
-    ErrorResponse.error = new appError(
-      ["totalSeats not found"],
+      ["seats not found"],
       StatusCodes.BAD_REQUEST
     );
     return res.status(StatusCodes.BAD_REQUEST).json(ErrorResponse);
@@ -91,4 +46,5 @@ function validateUpdateRequest(req, res, next) {
 
 module.exports = {
   validateCreateRequest,
+  validateUpdateSeatsRequest,
 };
